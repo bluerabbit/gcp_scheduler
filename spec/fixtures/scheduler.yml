@@ -1,2 +1,3 @@
 weekly_job:
+  class: WeeklyJob
   cron: '0 9 * * 1'

@@ -63,6 +63,7 @@ scheduler.ymlファイルは、ジョブのスケジュール情報を定義す�
 
 ```yaml
 weekly_job:
+  class: WeeklyJob
   cron: '0 9 * * 1'
 ```
 
