@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+#
+
+require "gcp_scheduler/cli"
+
+GcpScheduler::Cli.start

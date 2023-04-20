@@ -1,0 +1,2 @@
+weekly_job:
+  cron: '0 9 * * 1'
