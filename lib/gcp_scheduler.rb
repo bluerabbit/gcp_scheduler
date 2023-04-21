@@ -17,14 +17,11 @@ module GcpScheduler
       GcpScheduler::Command.delete(gcp_project: gcp_project, prefix: prefix, region: region)
     end
 
-    def create(gcp_project:, region:, scheduler_file_path:, uri:, secret:, time_zone:, prefix: "")
+    def create(gcp_project:, region:, scheduler_file_path:, prefix: "")
       GcpScheduler::Command.create(gcp_project:         gcp_project,
                                    region:              region,
                                    prefix:              prefix,
-                                   scheduler_file_path: scheduler_file_path,
-                                   uri:                 uri,
-                                   secret:              secret,
-                                   time_zone:           time_zone)
+                                   scheduler_file_path: scheduler_file_path)
     end
   end
 end

@@ -23,18 +23,19 @@ module GcpScheduler
         end
       end
 
-      def create(gcp_project:, region:, scheduler_file_path:, uri:, secret:, time_zone:, prefix: "")
+      def create(gcp_project:, region:, scheduler_file_path:, prefix: "")
         scheduler = Scheduler.new(project: gcp_project, location: region)
-        Scheduler.scheduler_config(scheduler_file_path).each do |name, h|
-          scheduler_name = "#{prefix}#{name}"
+        Scheduler.scheduler_config(scheduler_file_path)[:jobs].each do |job|
+          scheduler_name = "#{prefix}#{job[:name]}"
           puts "Create #{scheduler_name}"
           scheduler.create_job(name:        scheduler_name,
-                               description: "#{h["class"]} CreatedAt:#{Time.current.strftime("%Y/%m/%d %-H:%M")}",
-                               uri:         uri,
-                               schedule:    h["cron"],
-                               params:      { job_name: name },
-                               secret:      secret,
-                               time_zone:   time_zone)
+                               description: job[:description],
+                               uri:         job[:uri],
+                               schedule:    job[:schedule],
+                               time_zone:   job[:time_zone],
+                               params:      job[:params],
+                               http_method: job[:http_method],
+                               headers:     job[:http_headers])
           puts "Created #{scheduler_name}"
         end
       end
