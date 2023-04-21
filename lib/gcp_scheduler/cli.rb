@@ -34,20 +34,14 @@ module GcpScheduler
 
     desc "create", "Create schedules from scheduler.yml"
     method_option :gcp_project, type: :string, required: true
-    method_option :region, type: :string, default: "asia-northeast1"
-    method_option :prefix, type: :string, default: ""
+    method_option :region, type: :string, required: true
     method_option :scheduler_file, type: :string, required: true
-    method_option :uri, type: :string, required: true
-    method_option :secret, type: :string, default: ""
-    method_option :time_zone, type: :string, default: "Etc/UTC"
+    method_option :prefix, type: :string, default: ""
     def create
       GcpScheduler.create(gcp_project:         options[:gcp_project],
                           region:              options[:region],
                           prefix:              options[:prefix],
-                          scheduler_file_path: options[:scheduler_file],
-                          uri:                 options[:uri],
-                          secret:              options[:secret],
-                          time_zone:           options[:time_zone])
+                          scheduler_file_path: options[:scheduler_file])
     end
 
     desc "version", "Show Version"

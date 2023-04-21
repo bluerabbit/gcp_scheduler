@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.email       = ["akirakusumo10@gmail.com"]
   s.homepage    = "https://github.com/bluerabbit/gcp_scheduler"
   s.summary     = "A command-line interface for managing Google Cloud Scheduler jobs with ease"
-  s.description = "GCP Scheduler CLI is a Ruby gem that provides a simple command-line interface for managing Google Cloud Scheduler jobs. With this tool, you can create, list, and delete Cloud Scheduler jobs using intuitive commands. It streamlines job management tasks by allowing you to define job schedules in a YAML file and supports custom job prefixes, regions, and authentication tokens."
+  s.description = "GCP Scheduler is a Ruby gem that provides a simple command-line interface for managing Google Cloud Scheduler jobs. With this tool, you can create, list, and delete Cloud Scheduler jobs using intuitive commands. It streamlines job management tasks by allowing you to define job schedules in a YAML file."
 
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ["lib"]

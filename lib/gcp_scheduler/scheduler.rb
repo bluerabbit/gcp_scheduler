@@ -4,7 +4,7 @@ module GcpScheduler
 
     class << self
       def scheduler_config(file_path)
-        YAML.load(ERB.new(File.read(file_path)).result).with_indifferent_access
+        YAML.safe_load(ERB.new(File.read(file_path)).result, aliases: true).with_indifferent_access
       end
     end
 
@@ -24,8 +24,9 @@ module GcpScheduler
                    description:,
                    uri:,
                    schedule:,
-                   secret:, time_zone:, params: {},
-                   http_method: :POST,
+                   time_zone:,
+                   params: {},
+                   http_method:,
                    headers: {})
 
       job = {
@@ -37,13 +38,7 @@ module GcpScheduler
           uri:         uri,
           http_method: http_method,
           body:        params.to_json,
-          headers:     headers.merge(
-            {
-              "Authorization" => "Bearer #{secret}",
-              "Content-Type"  => "application/json",
-              "User-Agent"    => "Google-Cloud-Scheduler",
-            },
-          ),
+          headers:     headers
         },
       }
 

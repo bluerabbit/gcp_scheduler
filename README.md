@@ -22,15 +22,12 @@ export GOOGLE_APPLICATION_CREDENTIALS=your_credential.json
 ### ジョブの作成
 
 ```
-gcp_scheduler create --gcp_project your_project_name --scheduler_file path/to/scheduler.yml --uri https://your_domain.example.com --prefix development- --region asia-northeast1 --secret your_secret_token
+gcp_scheduler create --gcp_project your_project_name --scheduler_file path/to/scheduler.yml --prefix development- --region asia-northeast1
 ```
 
 - scheduler_fileを元にジョブを作成します。
 - prefixは、ジョブ名に付与されるプレフィックスです。
 - regionは、Cloud Schedulerのリージョンです。
-- uriは、スケジューラーがHTTP POSTを実行するURLです。
-- すべてのジョブは一つのURLにapplication/jsonでリクエストパラメータのjob_nameにscheduler_fileのjob名が入ります。
-- secretは、Http Authorization Header Bearer tokenです。
 
 ### ジョブの一覧表示
 
@@ -52,19 +49,26 @@ gcp_scheduler delete --gcp_project your_project_name --prefix development- --reg
 |---|-------------------------------------------------------------------------------------------|
 | `--gcp_project` | Google Cloud project name                                                                 |
 | `--scheduler_file` | Path to the scheduler configuration file (used with `create` command)                     |
-| `--uri` | URL of the endpoint to be executed by the job (used with `create` command)                |
 | `--prefix` | Prefix for the job name (used with `create`, `list`, and `delete` commands)               |
 | `--region` | Cloud Scheduler region                                                                    |
-| `--secret` | Http Authorization Header Bearer token to be sent by the job (used with `create` command) |
 
 ## scheduler.yml file
 
-scheduler.ymlファイルは、ジョブのスケジュール情報を定義するために使用されます。以下は、scheduler.ymlファイルのサンプルです。
+`--scheduler_file`オプションでyamlファイルを指定してください。スケジュールを定義するために使用されます。以下は、scheduler.ymlファイルのサンプルです。
 
 ```yaml
-weekly_job:
-  class: WeeklyJob
-  cron: '0 9 * * 1'
+jobs:
+  - name: WeeklyJob
+    description: "Runs every week at 9:00 a.m. Created:<%= Time.now.strftime("%Y/%m/%d %-H:%M") %>"
+    schedule: '0 9 * * *'
+    time_zone: Asia/Tokyo
+    uri: "https://yourdomain.example.com/api/v1/jobs"
+    http_method: POST
+    params:
+      job_name: weekly_job
+    http_headers:
+      Content-Type: application/json
+      Authorization: "Bearer <%= ENV['SECRET'] %>"
 ```
 
 ## Contributing
