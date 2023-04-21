@@ -10,18 +10,18 @@ module GcpScheduler
 
   class << self
     def list(gcp_project:, region:, prefix: "")
-      GcpScheduler::Command.list(gcp_project: gcp_project, prefix: prefix, region: region)
+      command = GcpScheduler::Command.new(gcp_project: gcp_project, region: region)
+      command.list(prefix: prefix)
     end
 
     def delete(gcp_project:, region:, prefix: "")
-      GcpScheduler::Command.delete(gcp_project: gcp_project, prefix: prefix, region: region)
+      command = GcpScheduler::Command.new(gcp_project: gcp_project, region: region)
+      command.delete(prefix: prefix)
     end
 
     def create(gcp_project:, region:, scheduler_file_path:, prefix: "")
-      GcpScheduler::Command.create(gcp_project:         gcp_project,
-                                   region:              region,
-                                   prefix:              prefix,
-                                   scheduler_file_path: scheduler_file_path)
+      command = GcpScheduler::Command.new(gcp_project: gcp_project, region: region)
+      command.create(prefix: prefix, scheduler_file_path: scheduler_file_path)
     end
   end
 end
