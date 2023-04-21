@@ -59,16 +59,16 @@ gcp_scheduler delete --gcp_project your_project_name --prefix development- --reg
 ```yaml
 jobs:
   - name: WeeklyJob
-    description: "Runs every week at 9:00 a.m. Created:<%= Time.now.strftime("%Y/%m/%d %-H:%M") %>"
+    description: 'Runs every week at 9:00 a.m. Created:<%= Time.now.strftime("%Y/%m/%d %-H:%M") %>'
     schedule: '0 9 * * *'
     time_zone: Asia/Tokyo
-    uri: "https://yourdomain.example.com/api/v1/jobs"
+    uri: https://yourdomain.example.com/api/v1/jobs
     http_method: POST
     params:
       job_name: weekly_job
     http_headers:
       Content-Type: application/json
-      Authorization: "Bearer <%= ENV['SECRET'] %>"
+      Authorization: 'Bearer <%= ENV["SECRET"] %>'
 ```
 
 ## Contributing
