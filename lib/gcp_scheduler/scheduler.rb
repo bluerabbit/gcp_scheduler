@@ -44,10 +44,14 @@ module GcpScheduler
         http_target: {
           uri:         uri,
           http_method: http_method,
-          body:        params.to_json,
+          body:        params,
           headers:     headers
         },
       }
+
+      if params.present? && headers["Content-Type"] == "application/json"
+        job[:http_target][:body] = params.to_json
+      end
 
       client.create_job parent: parent, job: job
     end

@@ -27,10 +27,9 @@ module GcpScheduler
     end
 
     def create(scheduler_file_path:, prefix: "")
-      Scheduler.scheduler_config(scheduler_file_path)[:jobs].each do |job|
-        scheduler_name = "#{prefix}#{job[:name]}"
-        puts "Create #{scheduler_name}"
-        scheduler.create_job(name:        scheduler_name,
+      Scheduler.scheduler_config_jobs(file_path: scheduler_file_path, job_name_prefix: prefix).each do |job|
+        puts "Create #{job[:name]}"
+        scheduler.create_job(name:        job[:name],
                              description: job[:description],
                              uri:         job[:uri],
                              schedule:    job[:schedule],
@@ -38,7 +37,7 @@ module GcpScheduler
                              params:      job[:params],
                              http_method: job[:http_method],
                              headers:     job[:http_headers])
-        puts "Created #{scheduler_name}"
+        puts "Created #{job[:name]}"
       end
     end
   end
