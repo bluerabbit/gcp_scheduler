@@ -1,0 +1,19 @@
+defaults:
+  uri: https://yourdomain.example.com/api/v1/jobs
+  http_method: POST
+  time_zone: Asia/Tokyo
+  http_headers:
+    Authorization: 'Bearer <%= ENV["SECRET"] %>'
+    Content-Type: application/json
+
+jobs:
+  - name: WeeklyJob
+    description: 'Runs every week at 9:00 a.m. Created:<%= Time.now.strftime("%Y/%m/%d %-H:%M") %>'
+    schedule: '0 9 * * *'
+    params:
+      job_name: weekly_job
+  - name: DailyJob
+    description: 'Runs every day at 10:30 a.m. Created:<%= Time.now.strftime("%Y/%m/%d %-H:%M") %>'
+    schedule: '30 10 * * *'
+    params:
+      job_name: daily_job

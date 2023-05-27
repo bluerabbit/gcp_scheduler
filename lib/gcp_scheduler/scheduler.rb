@@ -6,6 +6,13 @@ module GcpScheduler
       def scheduler_config(file_path)
         YAML.safe_load(ERB.new(File.read(file_path)).result, aliases: true).with_indifferent_access
       end
+
+      def scheduler_config_jobs(file_path:, job_name_prefix: "")
+        config = scheduler_config(file_path)
+        config[:jobs].map do |job|
+          (config[:defaults] || {}).merge(job.merge(name: "#{job_name_prefix}#{job[:name]}")).with_indifferent_access
+        end
+      end
     end
 
     def initialize(project:, location:)
@@ -37,10 +44,14 @@ module GcpScheduler
         http_target: {
           uri:         uri,
           http_method: http_method,
-          body:        params.to_json,
+          body:        params,
           headers:     headers
         },
       }
+
+      if params.present? && headers["Content-Type"] == "application/json"
+        job[:http_target][:body] = params.to_json
+      end
 
       client.create_job parent: parent, job: job
     end
