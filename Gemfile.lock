@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gcp_scheduler (0.2.0)
+    gcp_scheduler (0.2.1)
       activesupport
       google-cloud-scheduler-v1 (>= 0.7.0)
       thor
@@ -103,6 +103,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-21
+  x86_64-darwin-22
   x86_64-linux
 
 DEPENDENCIES
